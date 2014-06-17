@@ -19,7 +19,7 @@
 // designated initializer
 -(instancetype)initGameWithCardCount:(NSUInteger)count
                            usingDeck:(Deck *)deck
-                       withCardCount:(NSUInteger)cardCount;
+                       withNumberOfCardsToMatch:(NSUInteger)cardCount;
 -(void)chosenCardAtIndex:(NSUInteger)index;
 -(Card *)cardAtIndex:(NSUInteger)index;
 

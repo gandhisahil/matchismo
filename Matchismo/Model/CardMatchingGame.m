@@ -30,7 +30,7 @@ static const int COST_TO_CHOOSE = 1;
 -(instancetype)init{
     return nil;
 }
--(instancetype)initGameWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck withCardCount:(NSUInteger)cardCount {
+-(instancetype)initGameWithCardCount:(NSUInteger)count usingDeck:(Deck *)deck withNumberOfCardsToMatch:(NSUInteger)cardCount {
     self = [super init];
     if (self) {
         self.cardCount = cardCount;

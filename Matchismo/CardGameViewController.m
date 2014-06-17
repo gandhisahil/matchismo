@@ -11,47 +11,22 @@
 #import "CardMatchingGame.h"
 
 @interface CardGameViewController ()
-@property (weak, nonatomic) IBOutlet UISegmentedControl *matchMode;
-@property (nonatomic) NSInteger cardCount;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
-@property (weak, nonatomic) IBOutlet UILabel *matchModeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *moveDescriptionLabel;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
-@property (nonatomic) Deck *deck;
 @property (nonatomic, strong) CardMatchingGame *game;
 @end
 
 @implementation CardGameViewController
 
-- (IBAction)changeMatchMode:(id)sender {
-
-    if (self.matchMode.selectedSegmentIndex == 1) {
-        // 3-card game
-        self.cardCount = 3;
-        self.matchModeLabel.text = [NSString stringWithFormat:@"match mode: 3 cards"];
-    } else {
-        // 2-card game
-        self.cardCount = 2;
-        self.matchModeLabel.text = [NSString stringWithFormat:@"match mode: 2 cards"];
-    }
-    [self resetGame];
-}
-
 - (IBAction)resetGameButton:(id)sender {
-    self.cardCount = 0;
-    if (!self.matchMode.enabled) {
-        self.matchMode.enabled = YES;
-        self.matchMode.selectedSegmentIndex = -1;
-        self.matchModeLabel.text = [NSString stringWithFormat:@"select match mode..."];
-    }
-
-    // wait for user to choose match mode and call resetGame from changeMatchMode method
+    [self resetGame];
 }
 
 -(void)resetGame{
     self.game = [[CardMatchingGame alloc] initGameWithCardCount:[self.cardButtons count]
                                                       usingDeck:[self createDeck]
-                                                  withCardCount:self.cardCount];
+                                                  withNumberOfCardsToMatch:2];
     [self updateUI];
 
 }
@@ -60,7 +35,7 @@
     if (!_game) {
         _game = [[CardMatchingGame alloc] initGameWithCardCount:[self.cardButtons count]
                                                       usingDeck:[self createDeck]
-                                                  withCardCount:self.cardCount];
+                                                  withNumberOfCardsToMatch:2];
         }
     return _game;
 }
@@ -70,13 +45,6 @@
 }
 
 - (IBAction)touchCardButton:(UIButton *)sender {
-    if (self.matchMode.enabled) {
-        if (self.cardCount == 0) {
-            self.matchModeLabel.text = [NSString stringWithFormat:@"select match mode!!"];
-            return;
-        }
-        self.matchMode.enabled = NO;
-    }
     
     int chosenButtonIndex = [self.cardButtons indexOfObject:sender];
     [self.game chosenCardAtIndex:chosenButtonIndex];
